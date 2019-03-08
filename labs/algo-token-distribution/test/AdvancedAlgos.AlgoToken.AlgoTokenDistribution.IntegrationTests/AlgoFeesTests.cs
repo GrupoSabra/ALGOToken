@@ -9,6 +9,7 @@ using Nethereum.RPC.Accounts;
 using Nethereum.Web3;
 using Nethereum.Web3.Accounts;
 using Xunit;
+using AlgoMiner = AdvancedAlgos.AlgoToken.AlgoTokenDistribution.AlgoMinerCollectBased;
 
 namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution.IntegrationTests
 {

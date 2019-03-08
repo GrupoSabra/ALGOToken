@@ -7,6 +7,7 @@ using AdvancedAlgos.AlgoToken.AlgoTokenPlayground.Commands.ContractManagement;
 using AdvancedAlgos.AlgoToken.AlgoTokenPlayground.Runtime;
 using Nethereum.RPC.Eth.DTOs;
 using Nethereum.Web3;
+using AlgoMiner = AdvancedAlgos.AlgoToken.AlgoTokenDistribution.AlgoMinerCollectBased;
 
 namespace AdvancedAlgos.AlgoToken.AlgoTokenPlayground.Commands.AlgoMinerContract
 {
