@@ -69,10 +69,6 @@ namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution.IntegrationTests
             // Activate the miner...
             await miner1.ActivateMinerAsync();
 
-            // Start mining...
-            miner1.Bind(EthNetwork.Instance.GetWeb3(minerAccount));
-            await miner1.StartMiningAsync();
-
             // Collect the funds...
             miner1.Bind(EthNetwork.Instance.GetWeb3(systemAccount));
             await clock.AddDaysAsync(5);
@@ -168,10 +164,6 @@ namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution.IntegrationTests
             // Activate the miner...
             await miner1.ActivateMinerAsync();
 
-            // Start mining...
-            miner1.Bind(EthNetwork.Instance.GetWeb3(minerAccount));
-            await miner1.StartMiningAsync();
-
             // Collect the funds...
             miner1.Bind(EthNetwork.Instance.GetWeb3(systemAccount));
             await clock.AddDaysAsync(5);
@@ -261,10 +253,6 @@ namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution.IntegrationTests
             // Activate the miner...
             await miner1.ActivateMinerAsync();
 
-            // Start mining...
-            miner1.Bind(EthNetwork.Instance.GetWeb3(minerAccount));
-            await miner1.StartMiningAsync();
-
             // Collect the funds...
             miner1.Bind(EthNetwork.Instance.GetWeb3(systemAccount));
             await clock.AddDaysAsync(5);
@@ -283,10 +271,6 @@ namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution.IntegrationTests
 
             // Activate the miner...
             await miner1.ActivateMinerAsync();
-
-            // Start the miner...
-            miner1.Bind(EthNetwork.Instance.GetWeb3(minerAccount));
-            await miner1.StartMiningAsync();
 
             // Collect the funds and ensure that the skipped days are not taking into account...
             miner1.Bind(EthNetwork.Instance.GetWeb3(systemAccount));
@@ -353,10 +337,6 @@ namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution.IntegrationTests
 
             // Activate the miner...
             await miner1.ActivateMinerAsync();
-
-            // Start mining...
-            miner1.Bind(EthNetwork.Instance.GetWeb3(minerAccount));
-            await miner1.StartMiningAsync();
 
             // Collect the funds...
             miner1.Bind(EthNetwork.Instance.GetWeb3(systemAccount));
