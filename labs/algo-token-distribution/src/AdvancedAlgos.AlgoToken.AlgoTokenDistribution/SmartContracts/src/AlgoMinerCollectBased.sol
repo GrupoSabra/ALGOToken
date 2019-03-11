@@ -95,6 +95,9 @@ contract AlgoMinerCollectBased is AlgoCommon,
         }
 
         _state = MinerState.Activated;
+        _mining = true;
+
+        _tryStartMining();
     }
 
     function deactivateMiner() public notTerminated onlyCoreTeam {
@@ -125,7 +128,7 @@ contract AlgoMinerCollectBased is AlgoCommon,
 
         _state = MinerState.Activated;
 
-        _startMining();
+        _tryStartMining();
     }
 
     function stopAndRemoveOwnership() public notTerminated onlySupervisor {
@@ -153,7 +156,7 @@ contract AlgoMinerCollectBased is AlgoCommon,
         
         _mining = true;
 
-        _startMining();
+        _tryStartMining();
     }
 
     function stopMining() public notTerminated onlyMiner {
@@ -245,11 +248,13 @@ contract AlgoMinerCollectBased is AlgoCommon,
         _token.safeTransfer(_miner, minerFees);
         _token.safeTransfer(_referral, referralFees);
 
-        _startMining();
+        _tryStartMining();
     }
 
-    function _startMining() private {
-        _lastCollectionDay = _getCurrentEpochDay();
+    function _tryStartMining() private {
+        if(_mining) {
+            _lastCollectionDay = _getCurrentEpochDay();
+        }
     }
 
     function _getCurrentEpochDay() private view returns (uint256) {
