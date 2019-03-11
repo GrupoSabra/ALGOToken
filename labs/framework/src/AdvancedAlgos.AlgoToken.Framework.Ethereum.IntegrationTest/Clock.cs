@@ -37,7 +37,9 @@ namespace AdvancedAlgos.AlgoToken.Framework.Ethereum.IntegrationTest
             EpochFrom(new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc));
 
         private static BigInteger EpochFrom(DateTime dateTime) =>
-            new BigInteger((dateTime - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds);
+            new BigInteger((dateTime - DateTime.UnixEpoch).TotalSeconds);
+
+        public DateTime Current => DateTime.UnixEpoch.AddSeconds((double)_currentEpochTime);
 
         public Task AddAsync(TimeSpan value)
         {
