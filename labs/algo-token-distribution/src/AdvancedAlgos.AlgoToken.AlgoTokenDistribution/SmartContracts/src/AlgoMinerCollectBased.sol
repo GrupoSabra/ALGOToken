@@ -9,20 +9,19 @@ import "./ERC20TokenHolder.sol";
 import "./AlgoSupervisorRole.sol";
 import "./AlgoSystemRole.sol";
 import "./AlgoCoreTeamRole.sol";
-import "./AlgoMinerFeeTable.sol";
 
 contract AlgoMinerCollectBased is AlgoCommon,
                                 ERC20TokenHolder,
-                                AlgoMinerFeeTable,
                                 AlgoSystemRole,
                                 AlgoCoreTeamRole,
                                 AlgoSupervisorRole,
                                 IAlgoMiner {
     using SafeERC20 for IERC20;
 
-    uint256 private constant DAYS_PER_YEAR = 365;
     uint256 private constant DAY_SECS = 86400;
-    uint256 private constant FEE_UPDATE_INTERVAL = 10;
+    uint256 private constant FEE_LAST_AMOUNT_INIT = 1902694;
+    uint256 private constant FEE_TRANSIT_COEF = 998102770;
+    uint256 private constant FEE_FACTOR = 1000000000;
 
     enum MinerType {
         PoolBased,
@@ -43,8 +42,9 @@ contract AlgoMinerCollectBased is AlgoCommon,
 
     MinerState private _state;
     bool private _mining;
+    uint256 private _lastAmountTaken;
     uint256 private _lastCollectionDay;
-    uint256 private _firstYearSupply;
+    uint256 private _totalSupply;
     uint256 private _minedDays;
 
     constructor(MinerType minerType, uint8 category, address minerAccountAddress, address referralAccountAddress, address tokenAddress)
@@ -65,6 +65,8 @@ contract AlgoMinerCollectBased is AlgoCommon,
         _category = category;
         _miner = minerAccountAddress;
         _referral = referralAccountAddress;
+
+        _lastAmountTaken = FEE_LAST_AMOUNT_INIT;
     }
 
     modifier onlyMiner() {
@@ -80,7 +82,7 @@ contract AlgoMinerCollectBased is AlgoCommon,
     function activateMiner() public notTerminated onlyCoreTeam {
         require(_state == MinerState.Deactivated);
 
-        if(_minerType == MinerType.PoolBased && _firstYearSupply == 0) {
+        if(_minerType == MinerType.PoolBased && _totalSupply == 0) {
 
             uint256 capacity = getCapacityByCategory(_category);
             uint256 expectedBalance = capacity + capacity * 10 / 100;
@@ -89,7 +91,7 @@ contract AlgoMinerCollectBased is AlgoCommon,
 
             require(currentBalance == expectedBalance);
 
-            _firstYearSupply = capacity / 2;
+            _totalSupply = capacity / 2;
         }
 
         _state = MinerState.Activated;
@@ -199,8 +201,8 @@ contract AlgoMinerCollectBased is AlgoCommon,
         return _state == MinerState.Activated && _mining;
     }
 
-    function getFirstYearSupply() public view returns (uint256) {
-        return _firstYearSupply;
+    function getTotalSupply() public view returns (uint256) {
+        return _totalSupply;
     }
 
     function getLastCollectionDay() public view returns (uint256) {
@@ -222,29 +224,26 @@ contract AlgoMinerCollectBased is AlgoCommon,
 
         if(currentDay == _lastCollectionDay) return;
 
-        uint256 minerTokens = 0;
+        uint256 minerFees = 0;
+        uint256 currentAmountTaken = _lastAmountTaken;
         uint256 currentIterationMinedDays = currentDay - _lastCollectionDay;
 
-        // NOTE: In Solidity, division rounds towards zero.
-        uint256 currentDayFeeIndex = _minedDays / FEE_UPDATE_INTERVAL;
-        uint256 currentDayFee = _firstYearSupply * _getFeeCoefficientByDay(currentDayFeeIndex) / FEE_FACTOR;
         for (uint256 day = 0; day < currentIterationMinedDays; day++) {
-            if((_minedDays + day) % FEE_UPDATE_INTERVAL == 0) {
-                currentDayFeeIndex = (_minedDays + day) / FEE_UPDATE_INTERVAL;
-                currentDayFee = _firstYearSupply * _getFeeCoefficientByDay(currentDayFeeIndex) / FEE_FACTOR;
-            }
-            minerTokens += currentDayFee;
+            // NOTE: In Solidity, division rounds towards zero.
+            currentAmountTaken = currentAmountTaken * FEE_TRANSIT_COEF / FEE_FACTOR;
+            minerFees += currentAmountTaken * _totalSupply / FEE_FACTOR;
         }
 
+        _lastAmountTaken = currentAmountTaken;
         _minedDays += currentIterationMinedDays;
 
-        uint256 referralTokens = minerTokens * 10 / 100;
+        uint256 referralFees = minerFees * 10 / 100;
 
-        require(minerTokens > 0);
-        require(referralTokens > 0);
+        require(minerFees > 0);
+        require(referralFees > 0);
 
-        _token.safeTransfer(_miner, minerTokens);
-        _token.safeTransfer(_referral, referralTokens);
+        _token.safeTransfer(_miner, minerFees);
+        _token.safeTransfer(_referral, referralFees);
 
         _startMining();
     }
