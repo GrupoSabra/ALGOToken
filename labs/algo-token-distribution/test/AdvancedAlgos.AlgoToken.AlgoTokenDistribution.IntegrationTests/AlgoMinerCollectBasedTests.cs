@@ -2,6 +2,7 @@
 using System.Numerics;
 using System.Threading.Tasks;
 using AdvancedAlgos.AlgoToken.AlgoErc20Token;
+using AdvancedAlgos.AlgoToken.AlgoTokenDistribution.Algorithms;
 using AdvancedAlgos.AlgoToken.Framework.Ethereum;
 using AdvancedAlgos.AlgoToken.Framework.Ethereum.Exceptions;
 using AdvancedAlgos.AlgoToken.Framework.Ethereum.IntegrationTest;
@@ -74,7 +75,7 @@ namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution.IntegrationTests
             await clock.AddDaysAsync(5);
             await miner1.CollectAsync();
 
-            expectedMinerBalance = AlgoMinerFeeCalculator.CalculateFees(2.MAlgo(), 5); // Category = 2, 5 days mined.
+            expectedMinerBalance = AlgoMinerFeeAlgorithm.CalculateFees(2.MAlgo(), 5); // Category = 2, 5 days mined.
             expectedReferralBalance = expectedMinerBalance * 10 / 100;
             Assert.Equal(expectedMinerBalance, await token.BalanceOfAsync(minerAccount.Address));
             Assert.Equal(expectedReferralBalance, await token.BalanceOfAsync(referralAccount.Address));
@@ -100,7 +101,7 @@ namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution.IntegrationTests
             await clock.AddDaysAsync(2);
             await miner1.CollectAsync();
 
-            expectedMinerBalance = AlgoMinerFeeCalculator.CalculateFees(2.MAlgo(), 7); // Category = 2, 7 days mined.
+            expectedMinerBalance = AlgoMinerFeeAlgorithm.CalculateFees(2.MAlgo(), 7); // Category = 2, 7 days mined.
             expectedReferralBalance = expectedMinerBalance * 10 / 100;
             Assert.Equal(expectedMinerBalance, await token.BalanceOfAsync(minerAccount.Address));
             Assert.Equal(expectedReferralBalance, await token.BalanceOfAsync(referralAccount.Address));
@@ -169,7 +170,7 @@ namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution.IntegrationTests
             await clock.AddDaysAsync(5);
             await miner1.CollectAsync();
 
-            expectedMinerBalance = AlgoMinerFeeCalculator.CalculateFees(2.MAlgo(), 5); // Category = 2, 5 days mined.
+            expectedMinerBalance = AlgoMinerFeeAlgorithm.CalculateFees(2.MAlgo(), 5); // Category = 2, 5 days mined.
             expectedReferralBalance = expectedMinerBalance * 10 / 100;
             Assert.Equal(expectedMinerBalance, await token.BalanceOfAsync(minerAccount.Address));
             Assert.Equal(expectedReferralBalance, await token.BalanceOfAsync(referralAccount.Address));
@@ -189,7 +190,7 @@ namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution.IntegrationTests
             await clock.AddDaysAsync(2);
             await miner1.CollectAsync();
 
-            expectedMinerBalance = AlgoMinerFeeCalculator.CalculateFees(2.MAlgo(), 7); // Category = 2, 7 days mined.
+            expectedMinerBalance = AlgoMinerFeeAlgorithm.CalculateFees(2.MAlgo(), 7); // Category = 2, 7 days mined.
             expectedReferralBalance = expectedMinerBalance * 10 / 100;
             Assert.Equal(expectedMinerBalance, await token.BalanceOfAsync(minerAccount.Address));
             Assert.Equal(expectedReferralBalance, await token.BalanceOfAsync(referralAccount.Address));
@@ -258,7 +259,7 @@ namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution.IntegrationTests
             await clock.AddDaysAsync(5);
             await miner1.CollectAsync();
 
-            expectedMinerBalance = AlgoMinerFeeCalculator.CalculateFees(2.MAlgo(), 5); // Category = 2, 5 days mined.
+            expectedMinerBalance = AlgoMinerFeeAlgorithm.CalculateFees(2.MAlgo(), 5); // Category = 2, 5 days mined.
             expectedReferralBalance = expectedMinerBalance * 10 / 100;
             Assert.Equal(expectedMinerBalance, await token.BalanceOfAsync(minerAccount.Address));
             Assert.Equal(expectedReferralBalance, await token.BalanceOfAsync(referralAccount.Address));
@@ -277,7 +278,7 @@ namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution.IntegrationTests
             await clock.AddDaysAsync(2);
             await miner1.CollectAsync();
 
-            expectedMinerBalance = AlgoMinerFeeCalculator.CalculateFees(2.MAlgo(), 7); // Category = 2, 7 days mined.
+            expectedMinerBalance = AlgoMinerFeeAlgorithm.CalculateFees(2.MAlgo(), 7); // Category = 2, 7 days mined.
             expectedReferralBalance = expectedMinerBalance * 10 / 100;
             Assert.Equal(expectedMinerBalance, await token.BalanceOfAsync(minerAccount.Address));
             Assert.Equal(expectedReferralBalance, await token.BalanceOfAsync(referralAccount.Address));
@@ -343,7 +344,7 @@ namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution.IntegrationTests
             await clock.AddDaysAsync(15);
             await miner1.CollectAsync();
 
-            expectedMinerBalance = AlgoMinerFeeCalculator.CalculateFees(2.MAlgo(), 15); // Category = 2, 15 days mined.
+            expectedMinerBalance = AlgoMinerFeeAlgorithm.CalculateFees(2.MAlgo(), 15); // Category = 2, 15 days mined.
             expectedReferralBalance = expectedMinerBalance * 10 / 100;
             Assert.Equal(expectedMinerBalance, await token.BalanceOfAsync(minerAccount.Address));
             Assert.Equal(expectedReferralBalance, await token.BalanceOfAsync(referralAccount.Address));
@@ -353,7 +354,7 @@ namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution.IntegrationTests
             await clock.AddDaysAsync(15);
             await miner1.CollectAsync();
 
-            expectedMinerBalance = AlgoMinerFeeCalculator.CalculateFees(2.MAlgo(), 30); // Category = 2, 30 days mined.
+            expectedMinerBalance = AlgoMinerFeeAlgorithm.CalculateFees(2.MAlgo(), 30); // Category = 2, 30 days mined.
             expectedReferralBalance = expectedMinerBalance * 10 / 100;
             Assert.Equal(expectedMinerBalance, await token.BalanceOfAsync(minerAccount.Address));
             Assert.Equal(expectedReferralBalance, await token.BalanceOfAsync(referralAccount.Address));
@@ -363,7 +364,7 @@ namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution.IntegrationTests
             await clock.AddDaysAsync(100);
             await miner1.CollectAsync();
 
-            expectedMinerBalance = AlgoMinerFeeCalculator.CalculateFees(2.MAlgo(), 130); // Category = 2, 130 days mined.
+            expectedMinerBalance = AlgoMinerFeeAlgorithm.CalculateFees(2.MAlgo(), 130); // Category = 2, 130 days mined.
             expectedReferralBalance = expectedMinerBalance * 10 / 100;
             Assert.Equal(expectedMinerBalance, await token.BalanceOfAsync(minerAccount.Address));
             Assert.Equal(expectedReferralBalance, await token.BalanceOfAsync(referralAccount.Address));
@@ -373,7 +374,7 @@ namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution.IntegrationTests
             await clock.AddDaysAsync(400);
             await miner1.CollectAsync();
 
-            expectedMinerBalance = AlgoMinerFeeCalculator.CalculateFees(2.MAlgo(), 530); // Category = 2, 530 days mined.
+            expectedMinerBalance = AlgoMinerFeeAlgorithm.CalculateFees(2.MAlgo(), 530); // Category = 2, 530 days mined.
             expectedReferralBalance = expectedMinerBalance * 10 / 100;
             Assert.Equal(expectedMinerBalance, await token.BalanceOfAsync(minerAccount.Address));
             Assert.Equal(expectedReferralBalance, await token.BalanceOfAsync(referralAccount.Address));
@@ -383,7 +384,7 @@ namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution.IntegrationTests
             await clock.AddDaysAsync(3170);
             await miner1.CollectAsync();
 
-            expectedMinerBalance = AlgoMinerFeeCalculator.CalculateFees(2.MAlgo(), 3700); // Category = 2, 3700 days mined.
+            expectedMinerBalance = AlgoMinerFeeAlgorithm.CalculateFees(2.MAlgo(), 3700); // Category = 2, 3700 days mined.
             expectedReferralBalance = expectedMinerBalance * 10 / 100;
             Assert.Equal(expectedMinerBalance, await token.BalanceOfAsync(minerAccount.Address));
             Assert.Equal(expectedReferralBalance, await token.BalanceOfAsync(referralAccount.Address));

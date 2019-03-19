@@ -44,7 +44,7 @@ contract AlgoMinerCollectBased is AlgoCommon,
     bool private _mining;
     uint256 private _lastAmountTaken;
     uint256 private _lastCollectionDay;
-    uint256 private _totalSupply;
+    uint256 private _categorySupply;
     uint256 private _minedDays;
 
     constructor(MinerType minerType, uint8 category, address minerAccountAddress, address referralAccountAddress, address tokenAddress)
@@ -82,7 +82,7 @@ contract AlgoMinerCollectBased is AlgoCommon,
     function activateMiner() public notTerminated onlyCoreTeam {
         require(_state == MinerState.Deactivated);
 
-        if(_minerType == MinerType.PoolBased && _totalSupply == 0) {
+        if(_minerType == MinerType.PoolBased && _categorySupply == 0) {
 
             uint256 capacity = getCapacityByCategory(_category);
             uint256 expectedBalance = capacity + capacity * 10 / 100;
@@ -91,7 +91,7 @@ contract AlgoMinerCollectBased is AlgoCommon,
 
             require(currentBalance == expectedBalance);
 
-            _totalSupply = capacity / 2;
+            _categorySupply = capacity;
         }
 
         _state = MinerState.Activated;
@@ -204,8 +204,8 @@ contract AlgoMinerCollectBased is AlgoCommon,
         return _state == MinerState.Activated && _mining;
     }
 
-    function getTotalSupply() public view returns (uint256) {
-        return _totalSupply;
+    function getCategorySupply() public view returns (uint256) {
+        return _categorySupply;
     }
 
     function getLastCollectionDay() public view returns (uint256) {
@@ -234,7 +234,7 @@ contract AlgoMinerCollectBased is AlgoCommon,
         for (uint256 day = 0; day < currentIterationMinedDays; day++) {
             // NOTE: In Solidity, division rounds towards zero.
             currentAmountTaken = currentAmountTaken * FEE_TRANSIT_COEF / FEE_FACTOR;
-            minerFees += currentAmountTaken * _totalSupply / FEE_FACTOR;
+            minerFees += currentAmountTaken * _categorySupply / FEE_FACTOR;
         }
 
         _lastAmountTaken = currentAmountTaken;
