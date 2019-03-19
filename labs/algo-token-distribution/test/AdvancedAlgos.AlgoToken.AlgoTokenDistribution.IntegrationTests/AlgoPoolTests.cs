@@ -162,5 +162,53 @@ namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution.IntegrationTests
             Assert.Equal(0, await token.BalanceOfAsync(pool1.ContractAddress));
             Assert.Equal(100.Algo(), await token.BalanceOfAsync(coreTeamAccount.Address));
         }
+
+        [Fact]
+        public async Task Not_Enough_Funds_Test()
+        {
+            EthNetwork.UseDefaultTestNet();
+
+            var prefundedAccount = new Account(EthNetwork.Instance.PrefundedPrivateKey);
+
+            var tokenOwnerAccount = EthAccountFactory.Create();
+            var coreTeamAccount = EthAccountFactory.Create();
+            var minerAccount = EthAccountFactory.Create();
+            var referralAccount = EthAccountFactory.Create();
+
+            await EthNetwork.Instance.RefillAsync(tokenOwnerAccount);
+            await EthNetwork.Instance.RefillAsync(coreTeamAccount);
+
+            // Create the ERC20 token...
+            var token = new AlgoTokenV1(EthNetwork.Instance.GetWeb3(tokenOwnerAccount), EthNetwork.Instance.GasPriceProvider);
+            await token.DeployAsync();
+
+            // Create a pool...
+            var pool1 = new AlgoPool(EthNetwork.Instance.GetWeb3(coreTeamAccount), EthNetwork.Instance.GasPriceProvider);
+            await pool1.DeployAsync(0, token.ContractAddress);
+
+            // Transfer some tokens to the pool...
+            await token.TransferAsync(pool1.ContractAddress, 1.MAlgo());
+
+            // Create a miner...
+            var miner = new AlgoMiner(EthNetwork.Instance.GetWeb3(coreTeamAccount), EthNetwork.Instance.GasPriceProvider);
+            await miner.DeployAsync(0, 2, minerAccount.Address, referralAccount.Address, token.ContractAddress);
+
+            // Try to transfer tokens from the pool to the miner, It should fail since there is no enough funds.
+            await Assert.ThrowsAsync<TransactionRejectedException>(
+                () => pool1.TransferToMinerAsync(miner.ContractAddress));
+
+            // Transfer some tokens to the pool...
+            await token.TransferAsync(pool1.ContractAddress, 5.MAlgo());
+
+            // Try to transfer tokens from the pool to the miner, It should work now...
+            await pool1.TransferToMinerAsync(miner.ContractAddress);
+
+            // Try to transfer tokens to the same miner, It should fail since the miner is already funded...
+            await Assert.ThrowsAsync<TransactionRejectedException>(
+                () => pool1.TransferToMinerAsync(miner.ContractAddress));
+
+            // Ensure the miner received the proper amount of tokens according its category...
+            Assert.Equal(2.MAlgo(), await token.BalanceOfAsync(miner.ContractAddress));
+        }
     }
 }
