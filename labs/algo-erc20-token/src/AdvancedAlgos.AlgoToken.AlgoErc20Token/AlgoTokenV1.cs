@@ -15,6 +15,6 @@ namespace AdvancedAlgos.AlgoToken.AlgoErc20Token
 
         protected override string AbiResourceName => $"SmartContracts.src.bin.{nameof(AlgoTokenV1)}.abi";
         protected override string BinResourceName => $"SmartContracts.src.bin.{nameof(AlgoTokenV1)}.bin";
-        protected override BigInteger DeploymentGasUnits => 1200000;
+        protected override BigInteger DeploymentGasUnits => 2000000;
     }
 }
