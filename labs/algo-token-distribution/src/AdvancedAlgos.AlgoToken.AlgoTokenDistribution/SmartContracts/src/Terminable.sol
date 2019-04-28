@@ -1,18 +1,22 @@
-pragma solidity 0.5.4;
+pragma solidity 0.5.7;
 
-contract Terminable {
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
-    address internal _creator;
+contract Terminable is Ownable {
+
     bool internal _terminated;
 
     constructor() internal {
-        _creator = msg.sender;
         _terminated = false;
     }
 
     modifier notTerminated() {
         require(!_terminated);
         _;
+    }
+
+    function isTerminated() public view returns (bool) {
+        return _terminated;
     }
 
     function _terminate() internal {

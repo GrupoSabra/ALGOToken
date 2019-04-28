@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2048
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvancedAlgos.AlgoToken.AlgoErc20Token", "algo-erc20-token\src\AdvancedAlgos.AlgoToken.AlgoErc20Token\AdvancedAlgos.AlgoToken.AlgoErc20Token.csproj", "{96BC465D-507E-43BC-A71E-1B4F7799AB19}"
 EndProject
@@ -20,8 +20,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvancedAlgos.AlgoToken.Framework.Ethereum.IntegrationTest", "framework\src\AdvancedAlgos.AlgoToken.Framework.Ethereum.IntegrationTest\AdvancedAlgos.AlgoToken.Framework.Ethereum.IntegrationTest.csproj", "{127474F7-81E8-4153-AEE0-A2049D75F77D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvancedAlgos.AlgoToken.Framework.Ethereum", "framework\src\AdvancedAlgos.AlgoToken.Framework.Ethereum\AdvancedAlgos.AlgoToken.Framework.Ethereum.csproj", "{B05DC461-E82E-430B-A66D-9C0C9C9F9C9E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvancedAlgos.AlgoToken.AlgoTokenPlayground", "algo-token-playground\src\AdvancedAlgos.AlgoToken.AlgoTokenPlayground\AdvancedAlgos.AlgoToken.AlgoTokenPlayground.csproj", "{42569CB0-DA27-4BAE-A657-3617D1644AD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +51,6 @@ Global
 		{B05DC461-E82E-430B-A66D-9C0C9C9F9C9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B05DC461-E82E-430B-A66D-9C0C9C9F9C9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B05DC461-E82E-430B-A66D-9C0C9C9F9C9E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42569CB0-DA27-4BAE-A657-3617D1644AD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42569CB0-DA27-4BAE-A657-3617D1644AD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42569CB0-DA27-4BAE-A657-3617D1644AD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42569CB0-DA27-4BAE-A657-3617D1644AD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
