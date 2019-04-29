@@ -71,7 +71,6 @@ contract AlgoStreamImpl is ERC20TokenMinter {
         _tryCollect();
 
         _state = StreamState.Paused;
-        _lastStateChange = _getCurrentDateTime();
     }
 
     function resumeStreaming() public notTerminated onlyOwner atState(StreamState.Paused) {
