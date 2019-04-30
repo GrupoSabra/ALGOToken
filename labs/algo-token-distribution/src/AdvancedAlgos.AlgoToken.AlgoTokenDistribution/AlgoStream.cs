@@ -59,8 +59,8 @@ namespace AdvancedAlgos.AlgoToken.AlgoTokenDistribution
         public Task<TransactionReceipt> DisableStreamAsync() =>
             InvokeAsync(_disableStream, 900000);
 
-        public Task<TransactionReceipt> ResetStreamAsync(string newOwnerAddress, string newReferralAddress) =>
-            InvokeAsync(_resetStream, 900000, newOwnerAddress, newReferralAddress);
+        public Task<TransactionReceipt> ResetStreamAsync(string newStreamHolderAddress, string newReferralAddress) =>
+            InvokeAsync(_resetStream, 900000, newStreamHolderAddress, newReferralAddress);
 
         public Task<TransactionReceipt> ChangeStreamSizeAsync(byte size) =>
             InvokeAsync(_changeStreamSize, 900000, size);
