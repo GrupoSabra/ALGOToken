@@ -1,0 +1,24 @@
+new-account -n token_owner_account
+new-account -n stream_owner_account
+new-account -n stream_holder_account
+new-account -n stream_ref_ccount
+import-account 0936af475d2701538aad321f87e0a51f2b297634653393e8cab7290a674009a5 -n prefunded
+eth-transfer token_owner_account 1eth
+eth-transfer stream_owner_account 1eth
+eth-transfer stream_holder_account 1eth
+set-account token_owner_account
+deploy-algotoken -n token
+set-account stream_owner_account
+deploy-algostream 1 2 stream_holder_account stream_ref_ccount token -n stream
+set-account token_owner_account
+token.algotoken-addminter stream
+set-account stream_owner_account
+stream.algostream-setcurrentdatetime 2019-03-01T15:30:00
+stream.algostream-activatestream
+stream.algostream-setcurrentdatetime 2019-03-06T15:30:00
+set-account stream_holder_account
+stream.algostream-collect
+token.algotoken-balanceof stream_holder_account
+stream.algostream-setcurrentdatetime 2019-03-08T15:30:00
+stream.algostream-collect
+token.algotoken-balanceof stream_holder_account
